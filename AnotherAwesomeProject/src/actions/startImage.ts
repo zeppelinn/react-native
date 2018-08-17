@@ -1,23 +1,16 @@
 import { createAction } from 'redux-actions';
 import { IStartImage, IStoreState } from '../declarations';
 import { Dispatch } from 'redux';
+import { changeScene, SCENETYPE } from './scene';
 
 
 export const fetchStartImage = () => async (dispatch:Dispatch<IStoreState>) => {
     const response = await fetch("http://localhost:8111/start-image");
     const json:IStartImage = await response.json();
-
-    // fetch('http://localhost:8111/start-image').then(function(response){
-    //     if(response.status != 200){
-    //         console.log('fetch failed: ', response.status);
-    //         return ;
-    //     }
-    //     response.json().then(function(data){
-            
-    //     })
-    // })
-
-    dispatch(receivedStartImage(json));
+    await dispatch(receivedStartImage(json));
+    setTimeout(() => {
+        dispatch(changeScene(SCENETYPE.HOME_PAGE))
+    }, 1500);
 }
 
 
